@@ -100,3 +100,13 @@ type C2BRegisterURL struct {
 	ConfirmationURL string
 	ValidationURL   string
 }
+
+// Dynamic QR is a model
+type DynamicQr struct {
+	MerchantName string
+	RefNo        string
+	Amount       string
+	TrxCode      string
+	CPI          string
+	Size         string
+}
