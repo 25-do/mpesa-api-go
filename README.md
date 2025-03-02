@@ -325,6 +325,46 @@ func main() {
 
 }
 ```
+### Dynamic QR
+
+
+Use this API to generate a Dynamic QR which enables Safaricom M-PESA customers who have My Safaricom App or M-PESA app, to scan a QR (Quick Response) code, to capture till number and amount then authorize to pay for goods and services at select LIPA NA M-PESA (LNM) merchant outlets.
+``` go
+
+package main 
+
+import (
+	"log"
+	"github.com/AndroidStudyOpenSource/mpesa-api-go"
+)
+
+const (
+	appKey    = ""
+	appSecret = ""
+)
+
+func main() {
+	svc, err := mpesa.New(appKey, appSecret, mpesa.SANDBOX)
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := svc.DynamicQR(mpesa.DynamicQr{
+		MerchantName: "",
+		RefNo:        "",
+		Amount:       "",
+		TrxCode:      "",
+		CPI:          "",
+		Size:         "",
+	})
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println(res)
+
+}
+```
+
 
 ### Contributing
 
