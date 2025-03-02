@@ -35,7 +35,7 @@ func New(appKey, appSecret string, env int) (Service, error) {
 	return Service{appKey, appSecret, env}, nil
 }
 
-//Generate Mpesa Daraja Access Token
+// Generate Mpesa Daraja Access Token
 func (s Service) auth() (string, error) {
 	b := []byte(s.AppKey + ":" + s.AppSecret)
 	encoded := base64.StdEncoding.EncodeToString(b)
@@ -207,7 +207,7 @@ func (s Service) Reversal(reversal Reversal) (string, error) {
 	headers["Authorization"] = "Bearer " + auth
 	headers["cache-control"] = "no-cache"
 
-	url := s.baseURL() + "safaricom/reversal/v1/request" //TODO :: CONFIRM THIS URL/ENDPOINT???
+	url := s.baseURL() + "safaricom/reversal/v1/request" // TODO :: CONFIRM THIS URL/ENDPOINT???
 	return s.newReq(url, body, headers)
 }
 
@@ -251,6 +251,27 @@ func (s Service) PullTransactions(pull Pull) (string, error) {
 	headers["cache-control"] = "no-cache"
 
 	url := s.baseURL() + "pulltransactions/v1/query"
+	return s.newReq(url, body, headers)
+}
+
+// generate a Dynamic QR
+func (s Service) DynamicQR(dynamicqr DynamicQr) (string, error) {
+	body, err := json.Marshal(dynamicqr)
+	if err != nil {
+		return "", err
+	}
+	auth, err := s.auth()
+	if err != nil {
+		return "", nil
+	}
+
+	headers := make(map[string]string)
+	headers["Content-Type"] = "application/json"
+	headers["Authorization"] = "Bearer " + auth
+	headers["cache-control"] = "no-cache"
+
+	url := s.baseURL() + "mpesa/qrcode/v1/generate"
+
 	return s.newReq(url, body, headers)
 }
 
